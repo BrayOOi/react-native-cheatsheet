@@ -74,8 +74,8 @@ const styles = StyleSheet.create({
 
 The styles validated can then be referenced to components as such.
 
-const TextDisplay = () => (
-  \<Text style={styles.textStyle}>I am text\</Text>
+const TextDisplay = () => (<br>
+  \<Text style={styles.textStyle}>I am text\</Text><br>
 );
 
 <br>
@@ -92,14 +92,14 @@ Creating routes
 - The second object contains additional configurations
 
 const navigator = createStackNavigator({ <br>
-  Home: HomeScreen, // a path "Home" rendering a component "HomeScreen" <br>
-  About: AboutScreen, <br>
-  ... <br>
+&nbsp;&nbsp;Home: HomeScreen, // a path "Home" rendering a component "HomeScreen" <br>
+&nbsp;&nbsp;About: AboutScreen, <br>
+&nbsp;&nbsp;... <br>
 }, { <br>
-  initialRouteName: "Home", <br>
-  defaultNavigationOptions: { <br>
-    title: "Hello World!!!" // This will be shown at the header <br>
-  } <br>
+&nbsp;&nbsp;initialRouteName: "Home", <br>
+&nbsp;&nbsp;defaultNavigationOptions: { <br>
+&nbsp;&nbsp;&nbsp;&nbsp;title: "Hello World!!!" // This will be shown at the header <br>
+&nbsp;&nbsp;}<br>
 }); <br>
 
 export default createAppContainer(navigator);
@@ -112,8 +112,8 @@ Just like how React-Router passes its own props to all its immediate children co
 
 The prop used for navigation is "navigation" and can be destructured from props as below
 
-const HomeScreen = ({ navigation: { navigate } }) => (
-  \<View> <br>
-    <Button onPress={() => navigate("About")} /> // The string inside navigate corresponds to the keys passed as the first argument to createStackNavigator <br>
-  </View> <br>
+const HomeScreen = ({ navigation: { navigate } }) => (<br>
+&nbsp;&nbsp;\<View><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<Button onPress={() => navigate("About")} /> // The string inside navigate corresponds to the keys passed as the first argument to createStackNavigator <br>
+&nbsp;&nbsp;\</View> <br>
 );
