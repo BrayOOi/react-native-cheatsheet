@@ -5,8 +5,12 @@ CONTENTS
 ----------
 1. Components
   - Element Counterparts
+  - Special tags
   - Self-enclosing tags
 2. Styles
+  - Box Model
+  - Flex-box
+  - Positions
 3. Routing
   - Creating Routes
   - Navigations
@@ -34,7 +38,16 @@ Special tags
 1. TouchableOpacity
   - A wrapper that can catch any onPress events
   - All of its children are open to onPress events and will be affected by the changing opacity
-  - onPress=(() => {})
+  - event handler
+    - onPress=(() => {})
+
+2. Using icons
+  - Expo CLI provides a library of icons to use
+  - Just import the respective component and insert the name as argument as such.
+
+  import { FontAwesome } from "@expo/vector-icons";
+
+  \<FontAwesome name="search" size={50}> // size attribute shorthand
 
 
 Self-enclosing tags
@@ -53,9 +66,13 @@ In addition to some of their notable attributes:
 - TextInput
   - autoCapitalize="characters/none/sentences/words"
   - autoCorrect={true/false}
+  - onChangeText={textHandler or (curVal) => handles text.....} // the value will be passed to the function, not event object
+  - onEndEditing(() => {})
+
+  - recommended to add border because you will not see it on screen
 
 - Image
-  - source={require(STATIC_FOLDER)}
+  - source={require(STATIC_FOLDER) or { uri: IMG_URL }}
 
 <br>
 
@@ -68,17 +85,49 @@ RN validates styling of components through another primitive component StyleShee
 
 const styles = StyleSheet.create({
   textStyle: {
-    fontSize: 20
+    fontSize: 20 // default font-size is 14
   }
 });
 
 The styles validated can then be referenced to components as such.
 
+Box Model
+---------
+- padding === padding, 
+&nbsp;&nbsp;paddingVertical, paddingHorizontal,
+&nbsp;&nbsp;paddingTop, paddingBottom, paddingLeft, paddingRight
+- margin === margin,
+&nbsp;&nbsp;marginVertical, marginHorizontal,
+&nbsp;&nbsp;marginTop, marginBottom, marginLeft, marginRight
+- border-width === borderWidth,
+&nbsp;&nbsp;borderTopWidth, borderBottomWidth, borderLeftWidth, borderRightWidth
+
 const TextDisplay = () => (<br>
-  \<Text style={styles.textStyle}>I am text\</Text><br>
+&nbsp;&nbsp;\<Text style={styles.textStyle}>I am text\</Text><br>
 );
 
+Flex-box
+--------
+- Unlike CSS, Flexbox for RN has a default value of column for flex-direction
+- Unlike CSS, you don't need to declare display: flex at parent
+
+- flex-grow === flex
+
 <br>
+
+Positions
+---------
+position: "absolute",<br>
+top: 0,<br>
+right: 0,<br>
+left: 0,<br>
+bottom: 0<br>
+
+or
+
+...StyleSheet.absoluteFillObject
+
+will cause the element to fill up the parent component
 
 ROUTING - react-navigation
 --------------------------
@@ -86,9 +135,9 @@ ROUTING - react-navigation
 Creating routes
 ---------------
 
-- Routing with react-navigation is defined by a function createStackNavigator, which is then passed in 2 arguments 
+- Routing with react-navigation is defined by navigators, which is then passed in 2 arguments 
 
-- The first object contains the paths and their respective component
+- The first object contains the routes and their respective component
 - The second object contains additional configurations
 
 const navigator = createStackNavigator({ <br>
@@ -114,6 +163,6 @@ The prop used for navigation is "navigation" and can be destructured from props 
 
 const HomeScreen = ({ navigation: { navigate } }) => (<br>
 &nbsp;&nbsp;\<View><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<Button onPress={() => navigate("About")} /> // The string inside navigate corresponds to the keys passed as the first argument to createStackNavigator <br>
+&nbsp;&nbsp;&nbsp;&nbsp;\<Button onPress={() => navigate("About")} /> // The string inside navigate corresponds to the keys passed as the first argument to createStackNavigator <br>
 &nbsp;&nbsp;\</View> <br>
 );
