@@ -24,7 +24,7 @@ Element Counterparts
 
 React Native uses primitive elements instead of HTML elements to render components
 
-- div === View
+- div === View (see ScrollView and div frags)
 - span === Text
 - img === Image
 - input === TextInput
@@ -49,6 +49,8 @@ Special tags
 
   \<FontAwesome name="search" size={50}> // size attribute shorthand
 
+3. ScrollView
+  - just like a View component, but will automatically enable scrolling if the children components do not fit the screen
 
 Self-enclosing tags
 --------------------
@@ -59,6 +61,8 @@ In addition to some of their notable attributes:
   - onPress={() => {}}
 
 - FlatList
+  - Horizontal // render data horizontally
+  - showsHorizontalScrollIndicator={false} // hide scroll bar
   - keyExtractor={data => data.id} // any unique strings 
   - data={array} // array to be iterated over
   - renderItem={({ item }) => ...} // renderItem receives a prop object and each element are referenced by item, hence you will need to destructure item from the props object
@@ -73,6 +77,7 @@ In addition to some of their notable attributes:
 
 - Image
   - source={require(STATIC_FOLDER) or { uri: IMG_URL }}
+  - Image components need an explicit height and widths
 
 <br>
 
@@ -112,6 +117,9 @@ Flex-box
 - Unlike CSS, you don't need to declare display: flex at parent
 
 - flex-grow === flex
+
+- a component directly under App component with a flex: 1 will fill the entire visible screen (minus the navbar at the bottom of Android)
+- However, the same can be achieved by using a div frag because flex: 1 will create unpredictable situations
 
 <br>
 
@@ -166,3 +174,32 @@ const HomeScreen = ({ navigation: { navigate } }) => (<br>
 &nbsp;&nbsp;&nbsp;&nbsp;\<Button onPress={() => navigate("About")} /> // The string inside navigate corresponds to the keys passed as the first argument to createStackNavigator <br>
 &nbsp;&nbsp;\</View> <br>
 );
+
+Unlike react-router and RectDOM, when RN and React-Navigation does not unmount a component when users visit away from the component. Therefore an useEffect hook as below will not work when users visit back the page
+
+useEffect(() => {
+&nbsp;&nbsp;// Do something when component first mounts
+}, []);
+
+In order to simulate the effect, we need to add a listener
+
+useEffect(() => {
+&nbsp;&nbsp;// Do something when component first mounts
+
+&nbsp;&nbsp;const listener = navigation.addListener("didFocus", () => {
+&nbsp;&nbsp;&nbsp;&nbsp;// Do something again when the user visit back the screen
+&nbsp;&nbsp;});
+
+&nbsp;&nbsp;return () => {
+&nbsp;&nbsp;&nbsp;&nbsp;listener.remove();
+&nbsp;&nbsp;};
+}, []);
+
+However, the listener will not be removed after unmounting the component and therefore the remove function is returned for cleanup
+
+You can also import { NavigationEvents } from "react-navigation"
+
+\<NavigationEvents
+&nbsp;&nbsp;onWillFocus={// Do something when RN begins navigate into the component}
+&nbsp;&nbsp;onWillBlur={// Do something when component begins navigate away}
+/>
